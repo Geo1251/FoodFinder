@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./images/FoodFinder_logo_icon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="./images/FoodFinder_logo_icon.svg"
+      type="image/svg+xml"
+    />
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/SignUp.css">
+    <script defer src="./scripts/SignUp.js"></script>
+    <title>FoodFinder: Регистрация</title>
+  </head>
+  <body class="page">
+    <section class="registration__section">
+      <img class="registration__section-image" src="./images/FoodFinder_logo.png" alt="Logo">
+      <form class="registration__form" action="">
+        <h1 class="registration__form-title">Регистрация</h1>
+        <fieldset class="registration__form-field">
+          <input class="registration__form-input registration__form-input--username" type="text" placeholder="Логин" required>
+          <input class="registration__form-input registration__form-input--password" type="password" placeholder="Пароль" required>
+          <input class="registration__form-input registration__form-input--confirm-password" type="password" placeholder="Повторите пароль">
+          <button type="submit" class="registration__form-button">Зарегистрироваться</button>
+        </fieldset>
+        <p class="registration__form-text">Есть аккаунт? <a href="./SignIn.html">Войти</a></p>
+      </form>
+    </section>
+  </body>
+</html>

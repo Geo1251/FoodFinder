@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./images/FoodFinder_logo_icon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="./images/FoodFinder_logo_icon.svg"
+      type="image/svg+xml"
+    />
+  <link rel="stylesheet" href="./styles/global.css">
+  <link rel="stylesheet" href="./styles/font.css">
+  <link rel="stylesheet" href="./styles/Main.css">
+  <script defer src="./scripts/Main.js"></script>
+  <title>FoodFinder: Главная</title>
+</head>
+<body class="page">
+  <header class="header">
+    <a class="header__link" href="Main.html">
+      <img class="header__image" src="./images/FoodFinder_logo_notxt.png" alt="Logo">
+      <h1 class="header__title">Food Finder</h1>
+    </a>
+    <div class="header__container">
+      <button class="add-button" id="add-button">Добавить</button>
+      <div class="user__image-container">
+        <a href="Account.html">
+          <img class="user__image" src="./images/default-avatar.png" alt="Avatar">
+        </a>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <section class="main__section">
+      <ul class="products__list"></ul>
+    </section>
+  </main>
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close-button" id="close-button">&times;</span>
+      <h2 class="modal-title">Добавить продукт</h2>
+      <form id="add-product-form" class="add-product-form">
+        <input class="form-input" type="text" id="product-name" name="product-name" placeholder="Название продукта" required>
+        <input class="form-input" type="number" id="product-proteins" name="product-proteins" placeholder="Белки (гр)" required>
+        <input class="form-input" type="number" id="product-fats" name="product-fats" placeholder="Жиры (гр)" required>
+        <input class="form-input" type="number" id="product-carbs" name="product-carbs" placeholder="Углеводы (гр)" required>
+        <input class="form-input" type="number" id="product-calories" name="product-calories" placeholder="Калории (ккал)" required>
+        <input class="form-input" type="number" id="product-portion" name="product-portion" placeholder="Порция (гр)" required>
+        <select class="form-input" id="meal-type" name="meal-type" required>
+          <option value="Завтрак">Завтрак</option>
+          <option value="Обед">Обед</option>
+          <option value="Ужин">Ужин</option>
+        </select>
+        <button type="submit" class="save-button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

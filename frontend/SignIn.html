@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./images/FoodFinder_logo_icon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="./images/FoodFinder_logo_icon.svg"
+      type="image/svg+xml"
+    />
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/SignIn.css">
+    <script defer src="./scripts/SignIn.js"></script>
+    <title>FoodFinder: Авторизация</title>
+  </head>
+  <body class="page">
+    <section class="authorization__section">
+      <img class="authorization__section-image" src="./images/FoodFinder_logo.png" alt="Logo">
+      <form class="authorization__form" action="">
+        <h1 class="authorization__form-title">Авторизация</h1>
+        <fieldset class="authorization__form-field">
+          <input class="authorization__form-input authorization__form-input--username" type="text" placeholder="Логин" required>
+          <input class="authorization__form-input authorization__form-input--password" type="password" placeholder="Пароль" required>
+          <button type="submit" class="authorization__form-button">Войти</button>
+        </fieldset>
+        <p class="authorization__form-text">Нет аккаунта? <a href="./SignUp.html">Зарегистрироваться</a></p>
+      </form>
+    </section>
+  </body>
+</html>
