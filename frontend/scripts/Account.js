@@ -291,14 +291,22 @@ function getUserIdFromToken(token) {
 }
 
 function getUserInfo() {
+  const lastNameElement = document.querySelector('.user__lastname');
+  const firstNameElement = document.querySelector('.user__name');
+  const middleNameElement = document.querySelector('.user__otchestво');
+  const birthYearElement = document.querySelector('.user__age');
+  const weightElement = document.querySelector('.user__weight');
+  const heightElement = document.querySelector('.user__height');
+  const goalElement = document.getElementById('goal-text');
+
   return {
-    lastName: document.querySelector('.user__lastname').textContent,
-    firstName: document.querySelector('.user__name').textContent,
-    middleName: document.querySelector('.user__otchestво').textContent,
-    birthYear: document.querySelector('.user__age').dataset.birthYear,
-    weight: document.querySelector('.user__weight').textContent.split(' ')[0],
-    height: document.querySelector('.user__height').textContent.split(' ')[0],
-    goal: document.getElementById('goal-text').textContent
+    lastName: lastNameElement ? lastNameElement.textContent : '',
+    firstName: firstNameElement ? firstNameElement.textContent : '',
+    middleName: middleNameElement ? middleNameElement.textContent : '',
+    birthYear: birthYearElement ? birthYearElement.dataset.birthYear : '',
+    weight: weightElement ? weightElement.textContent.split(' ')[0] : '',
+    height: heightElement ? heightElement.textContent.split(' ')[0] : '',
+    goal: goalElement ? goalElement.textContent : ''
   };
 }
 
