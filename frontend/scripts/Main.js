@@ -2,6 +2,7 @@ let userData;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = getCookie('token');
+    console.log(token);
     if (!token) {
         alert('Вы не авторизованы. Пожалуйста, войдите в систему.');
         window.location.href = '/frontend/SignIn.html';
