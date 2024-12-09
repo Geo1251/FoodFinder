@@ -53,36 +53,38 @@ function displayUserInfo(user) {
 function calculateRecommendedParams(user) {
   let proteins, fats, carbs, calories;
 
+  const heightFactor = user.height / 100;  
+
   switch (user.goal) {
-    case 'Сброс веса':
-      proteins = user.weight * 1.5;
-      fats = user.weight * 0.8;
-      carbs = user.weight * 1.2;
-      calories = 1800;
-      break;
-    case 'Поддержание веса':
-      proteins = user.weight * 1.2;
-      fats = user.weight * 1;
-      carbs = user.weight * 2;
-      calories = 2000;
-      break;
-    case 'Набор мышечной массы':
-      proteins = user.weight * 2;
-      fats = user.weight * 1.2;
-      carbs = user.weight * 2.5;
-      calories = 2500;
-      break;
-    case 'Рекомпозиция':
-      proteins = user.weight * 2.2;
-      fats = user.weight * 1;
-      carbs = user.weight * 1.5;
-      calories = 2200;
-      break;
-    default:
-      proteins = 0;
-      fats = 0;
-      carbs = 0;
-      calories = 0;
+      case 'Сброс веса':
+          proteins = user.weight * 1.5 * heightFactor;
+          fats = user.weight * 0.8 * heightFactor;
+          carbs = user.weight * 1.2 * heightFactor;
+          calories = 1800;  
+          break;
+      case 'Поддержание веса':
+          proteins = user.weight * 1.2 * heightFactor;
+          fats = user.weight * 1 * heightFactor;
+          carbs = user.weight * 2 * heightFactor;
+          calories = 2000;  
+          break;
+      case 'Набор мышечной массы':
+          proteins = user.weight * 2 * heightFactor;
+          fats = user.weight * 1.2 * heightFactor;
+          carbs = user.weight * 2.5 * heightFactor;
+          calories = 2500;  
+          break;
+      case 'Рекомпозиция':
+          proteins = user.weight * 2.2 * heightFactor;
+          fats = user.weight * 1 * heightFactor;
+          carbs = user.weight * 1.5 * heightFactor;
+          calories = 2200; 
+          break;
+      default:
+          proteins = 0;
+          fats = 0;
+          carbs = 0;
+          calories = 0;
   }
 
   document.getElementById('recommended-proteins').textContent = proteins.toFixed(1);
