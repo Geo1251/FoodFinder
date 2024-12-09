@@ -109,7 +109,7 @@ async function displayUserRation(userId) {
     const rationList = document.querySelector('.user__ration-list');
     rationList.innerHTML = '';
 
-    let totalProteins = 0, totalFats = 0, totalCarbs = 0, totalCalories = 0;
+    const dateTotals = {};
 
     userProducts.forEach(userProduct => {
       const product = userProduct.Product;
@@ -122,10 +122,14 @@ async function displayUserRation(userId) {
       const productCarbs = (product.carbohydrates * quantity / 100).toFixed(1);
       const productCalories = (product.calories * quantity / 100).toFixed(1);
 
-      totalProteins += parseFloat(productProteins);
-      totalFats += parseFloat(productFats);
-      totalCarbs += parseFloat(productCarbs);
-      totalCalories += parseFloat(productCalories);
+      if (!dateTotals[date]) {
+        dateTotals[date] = { proteins: 0, fats: 0, carbs: 0, calories: 0 };
+      }
+
+      dateTotals[date].proteins += parseFloat(productProteins);
+      dateTotals[date].fats += parseFloat(productFats);
+      dateTotals[date].carbs += parseFloat(productCarbs);
+      dateTotals[date].calories += parseFloat(productCalories);
 
       let rationItem = rationList.querySelector(`.user__ration-list-item[data-date="${date}"]`);
       if (!rationItem) {
@@ -156,21 +160,52 @@ async function displayUserRation(userId) {
       productItem.classList.add('user__ration-details-list-item');
       productItem.innerHTML = `
         <p class="ration__product">${product.name}</p>
-        <p class="ration__product-info">Белки: ${productProteins}гр, Жиры: ${productFats}гр, Углеводы: ${productCarbs}гр, Калории: ${productCalories} ккал</p>
+        <p class="ration__product-info">Белки: ${productProteins} гр,</br> Жиры: ${productFats} гр,</br> Углеводы: ${productCarbs} гр,</br> Калории: ${productCalories} ккал</p>
       `;
       mealItem.querySelector('.user__ration-details-list').appendChild(productItem);
     });
 
-    rationList.querySelectorAll('.user__ration-list-item').forEach(rationItem => {
+    Object.keys(dateTotals).forEach(date => {
+      const rationItem = rationList.querySelector(`.user__ration-list-item[data-date="${date}"]`);
       const totalResult = rationItem.querySelector('.user__ration-result');
-      totalResult.innerHTML = `Итого: Белки: ${totalProteins.toFixed(1)}гр, Жиры: ${totalFats.toFixed(1)}гр, Углеводы: ${totalCarbs.toFixed(1)}гр, Калории: ${totalCalories.toFixed(1)} ккал`;
-      updateRecommendedParams(totalProteins, totalFats, totalCarbs, totalCalories, totalResult);
+      const totals = dateTotals[date];
+      totalResult.innerHTML = `Итого: Белки: ${totals.proteins.toFixed(1)} гр, Жиры: ${totals.fats.toFixed(1)} гр, Углеводы: ${totals.carbs.toFixed(1)} гр, Калории: ${totals.calories.toFixed(1)} ккал`;
+      updateRecommendedParams(totals.proteins, totals.fats, totals.carbs, totals.calories, totalResult);
     });
 
   } catch (error) {
     console.error('Error fetching user ration:', error);
     alert('Ошибка при получении рациона пользователя.');
   }
+}
+
+function updateRecommendedParams(totalProteins, totalFats, totalCarbs, totalCalories, totalResult) {
+  const recommendedProteins = parseFloat(document.getElementById('recommended-proteins').textContent);
+  const recommendedFats = parseFloat(document.getElementById('recommended-fats').textContent);
+  const recommendedCarbs = parseFloat(document.getElementById('recommended-carbs').textContent);
+  const recommendedCalories = parseFloat(document.getElementById('recommended-calories').textContent);
+
+  const proteinsDifference = totalProteins - recommendedProteins;
+  const fatsDifference = totalFats - recommendedFats;
+  const carbsDifference = totalCarbs - recommendedCarbs;
+  const caloriesDifference = totalCalories - recommendedCalories;
+
+  const proteinsDifferenceText = proteinsDifference > 0 ? `(+${proteinsDifference.toFixed(1)})` : `(${proteinsDifference.toFixed(1)})`;
+  const fatsDifferenceText = fatsDifference > 0 ? `(+${fatsDifference.toFixed(1)})` : `(${fatsDifference.toFixed(1)})`;
+  const carbsDifferenceText = carbsDifference > 0 ? `(+${carbsDifference.toFixed(1)})` : `(${carbsDifference.toFixed(1)})`;
+  const caloriesDifferenceText = caloriesDifference > 0 ? `(+${caloriesDifference.toFixed(1)})` : `(${caloriesDifference.toFixed(1)})`;
+
+  const proteinsDifferenceColor = proteinsDifference > 0 ? 'green' : 'red';
+  const fatsDifferenceColor = fatsDifference > 0 ? 'green' : 'red';
+  const carbsDifferenceColor = carbsDifference > 0 ? 'green' : 'red';
+  const caloriesDifferenceColor = caloriesDifference > 0 ? 'green' : 'red';
+
+  totalResult.innerHTML = `
+    Итого: Белки: ${totalProteins.toFixed(1)} гр <span style="color: ${proteinsDifferenceColor};">${proteinsDifferenceText}</span>, 
+    Жиры: ${totalFats.toFixed(1)} гр <span style="color: ${fatsDifferenceColor};">${fatsDifferenceText}</span>, 
+    Углеводы: ${totalCarbs.toFixed(1)} гр <span style="color: ${carbsDifferenceColor};">${carbsDifferenceText}</span>, 
+    Калории: ${totalCalories.toFixed(1)} ккал <span style="color: ${caloriesDifferenceColor};">${caloriesDifferenceText}</span>
+  `;
 }
 
 function capitalizeFirstLetter(string) {
