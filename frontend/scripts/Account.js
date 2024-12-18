@@ -357,8 +357,78 @@ function fillEditForm(user) {
   document.getElementById('goal').value = user.goal;
 }
 
-const exitButton = document.getElementById('exit-button');
-exitButton.addEventListener('click', () => {
-  document.cookie = 'token=; Max-Age=0; path=/'; 
-  window.location.href = '/frontend/SignIn.html'; 
+const additionalButton = document.getElementById('additional-button');
+const responseModal = document.getElementById('response-modal');
+const responseText = document.getElementById('response-text');
+const responseCloseButton = document.getElementById('response-close-button');
+
+additionalButton.addEventListener('click', async () => {
+  await getRecommendations();
+});
+
+async function getRecommendations() {
+  const user = getUserInfo();
+  const recommendedProteins = document.getElementById('recommended-proteins').textContent;
+  const recommendedFats = document.getElementById('recommended-fats').textContent;
+  const recommendedCarbs = document.getElementById('recommended-carbs').textContent;
+  const recommendedCalories = document.getElementById('recommended-calories').textContent;
+
+  const rationList = document.querySelectorAll('.user__ration-list .user__ration-details-list-item');
+  const rationData = Array.from(rationList).map(item => {
+    const product = item.querySelector('.ration__product').textContent;
+    const info = item.querySelector('.ration__product-info').textContent;
+    return { product, info };
+  });
+
+  const prompt = {
+    prompt: `Посоветуй мне еще продукты, чтобы достичь своей ежедневной нормы с учетом моей цели. 
+    Цель: ${user.goal}, 
+    Рекомендуемые параметры: Белки: ${recommendedProteins} гр, Жиры: ${recommendedFats} гр, Углеводы: ${recommendedCarbs} гр, Калории: ${recommendedCalories} ккал. 
+    Ежедневный рацион: ${rationData.map(item => `${item.product} (${item.info})`).join(', ')}`
+  };
+
+  try {
+    const response = await fetch('http://95.163.152.133:16384/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(prompt)
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to get response from neural network');
+    }
+
+    const data = await response.json();
+    showResponseModal(formatResponse(data.story));
+  } catch (error) {
+    console.error('Error fetching neural network response:', error);
+    showResponseModal('Ошибка при получении ответа от нейросети.');
+  }
+}
+
+function formatResponse(response) {
+  // Пример форматирования текста
+  return response
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Жирный текст
+    .replace(/\*(.*?)\*/g, '<em>$1</em>') // Курсив
+    .replace(/\n/g, '<br>') // Перенос строки
+    .replace(/- /g, '<li>') // Список
+    .replace(/(\d+\.\d+)/g, '<span style="color: green;">$1</span>'); // Числа зеленым цветом
+}
+
+function showResponseModal(message) {
+  responseText.innerHTML = message;
+  responseModal.style.display = 'block';
+}
+
+responseCloseButton.addEventListener('click', () => {
+  responseModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === responseModal) {
+    responseModal.style.display = 'none';
+  }
 });
