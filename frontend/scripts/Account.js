@@ -409,13 +409,12 @@ async function getRecommendations() {
 }
 
 function formatResponse(response) {
-  // Пример форматирования текста
   return response
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Жирный текст
-    .replace(/\*(.*?)\*/g, '<em>$1</em>') // Курсив
-    .replace(/\n/g, '<br>') // Перенос строки
-    .replace(/- /g, '<li>') // Список
-    .replace(/(\d+\.\d+)/g, '<span style="color: green;">$1</span>'); // Числа зеленым цветом
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+    .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+    .replace(/\n/g, '<br>') 
+    .replace(/- /g, '<li>') 
+    .replace(/(\d+\.\d+)/g, '<span style="color: green;">$1</span>');
 }
 
 function showResponseModal(message) {
